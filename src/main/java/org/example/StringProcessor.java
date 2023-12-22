@@ -42,6 +42,8 @@ public class StringProcessor {
         String[] words = sentence.split("\\s+");
         return words.length;
     }
+
+
     public static double calculateExpression(String expression) {
         Stack<Double> numbers = new Stack<>();
         Stack<Character> operators = new Stack<>();
@@ -50,21 +52,20 @@ public class StringProcessor {
             char character = expression.charAt(i);
 
             if (Character.isDigit(character)) {
-                // If the current character is a digit, extract the whole number
                 char[] numArray = new char[expression.length()];
                 int numIndex = 0;
                 while (i < expression.length() && (Character.isDigit(expression.charAt(i)) || expression.charAt(i) == '.')) {
                     numArray[numIndex++] = expression.charAt(i);
                     i++;
                 }
-                i--; // Decrement i to handle the next character in the next iteration
+                i--;
 
-                // Convert the extracted number to a double and push it onto the numbers stack
+
                 String numString = new String(numArray, 0, numIndex);
                 double numValue = Double.parseDouble(numString);
                 numbers.push(numValue);
             } else if (character == '+' || character == '-') {
-                // Process higher precedence operators (* and /) before pushing the current operator
+
                 while (!operators.isEmpty() && (operators.peek() == '*' || operators.peek() == '/')) {
                     evaluateExpression(numbers, operators);
                 }
@@ -74,12 +75,12 @@ public class StringProcessor {
             }
         }
 
-        // Evaluate any remaining operators in the stacks
+
         while (!operators.isEmpty()) {
             evaluateExpression(numbers, operators);
         }
 
-        // The result should be the only element left in the numbers stack
+
         return numbers.pop();
     }
 
